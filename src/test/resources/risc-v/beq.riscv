@@ -1,0 +1,33 @@
+  .text
+  .align 2       # Make sure we're aligned to 4 bytes
+  .globl _start
+_start:
+    beq t2, t3, label   # if reg[7] == reg[28], go to label.
+    addi t0, t0, 10  # else reg[5] = reg[5] + 10
+    beq zero, zero, end # no matter what, go to end
+    addi t0, t0, 3 # reg[5] = reg[5] + 10; this line should never be executed
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+label:
+    add t0, t0, t1     # reg[5] = reg[5] + reg[6]
+
+end:
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+    nop
+_last:
