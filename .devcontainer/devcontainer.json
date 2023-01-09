@@ -1,0 +1,25 @@
+{
+    "image": "jlpteaching/dinocpu-wq23",
+    "hostRequirements": {
+        "cpus": 4,
+        "memory": "8gb",
+        "storage": "32gb" 
+     },
+     "customizations": {
+		"vscode": {
+			"extensions": [
+				"aaronduino.chisel"
+			]
+		}
+	},
+	"settings": {
+		"terminal.integrated.profiles.linux": {
+			"sbt (dinocpu)": {
+				"path": "/usr/bin/sbt",
+				"args": ["-mem", "4096"]
+			}
+		},
+		"terminal.integrated.defaultProfile.linux": "sbt (dinocpu)"
+	},
+	"postCreateCommand": "sbt compile"
+}
