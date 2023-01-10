@@ -79,10 +79,3 @@ See [Compiling code to run on DINO CPU](documentation/compiling.md) for details 
 - [Setting up grading on Gradescope](documentation/teaching/grading.md)
 - [Updating the Singularity container](documentation/teaching/singularity.md)
 
-## DINO CPU-based assignments
-
-The `assignments` directory contains some assignments that we have used at UC Davis with the DINO CPU.
-- [Assignment 1](assignments/assignment-1.md): Introduction assignment which begins the design of the DINO CPU with implementing the R-type instructions only.
-- [Assignment 2](assignments/assignment-2.md): A full implementation of a single-cycle RISC-V CPU. This assignment walks students through each type of RISC-V instruction.
-- [Assignment 3](assignments/assignment-3.md): Pipelining. This assignment extends assignment 2 to a pipelined RISC-V design.
-- [Assignment 4](assignments/assignment-4.md): Adding a branch predictor. In this assignment, students implement two different branch predictors and compare their performance.
