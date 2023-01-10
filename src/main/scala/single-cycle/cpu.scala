@@ -24,7 +24,7 @@ class SingleCycleCPU(implicit val conf: CPUConfig) extends BaseCPU {
   val (cycleCount, _) = Counter(true.B, 1 << 30)
 
   control.io := DontCare
-  register.io := DontCare
+  registers.io := DontCare
   aluControl.io := DontCare
   alu.io := DontCare
   immGen.io := DontCare
