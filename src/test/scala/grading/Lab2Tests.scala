@@ -34,7 +34,7 @@ class Lab2Grader extends JUnitSuite {
       implicit val conf = new CPUConfig()
 
       var success = true
-      for (test <- InstTests.rtype) {
+      for (test <- InstTests.rtype ++ InstTests.rtypeMExtension) {
         success = CPUTesterDriver(test, "single-cycle") && success
         if (!success) {
           println("Errored on test " + test.binary)
