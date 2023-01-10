@@ -29,6 +29,7 @@ class SingleCycleCPU(implicit val conf: CPUConfig) extends BaseCPU {
   alu.io := DontCare
   immGen.io := DontCare
   controlTransfer.io := DontCare
+  io.dmem <> DontCare
 
   //FETCH
   io.imem.address := pc
