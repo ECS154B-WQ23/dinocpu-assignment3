@@ -101,6 +101,8 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   forwarding.io       := DontCare
   hazard.io           := DontCare
 
+  io.dmem := DontCare
+
   id_ex.io       := DontCare
   id_ex_ctrl.io  := DontCare
   ex_mem.io      := DontCare
