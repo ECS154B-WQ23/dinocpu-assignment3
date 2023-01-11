@@ -102,6 +102,7 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   hazard.io           := DontCare
 
   io.dmem := DontCare
+  dontTouch(pc)
 
   id_ex.io       := DontCare
   id_ex_ctrl.io  := DontCare
