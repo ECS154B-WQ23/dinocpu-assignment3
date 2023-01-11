@@ -25,7 +25,7 @@ import dinocpu.test.components._
   */
 class SingleCycleRTypeTesterLab2 extends CPUFlatSpec {
   behavior of "Single Cycle CPU"
-  for (test <- InstTests.rtype) {
+  for (test <- InstTests.rtype ++ InstTests.rtypeMultiCycle) {
     it should s"run R-type instruction ${test.binary}${test.extraName}" in {
       CPUTesterDriver(test, "single-cycle") should be(true)
     }
@@ -76,8 +76,7 @@ class SingleCycleITypeTesterLab2 extends CPUFlatSpec {
     }
   }
 
-  val tests = InstTests.tests("itype")
-  for (test <- tests) {
+  for (test <- InstTests.itype ++ InstTests.itypeMultiCycle) {
     "Single Cycle CPU" should s"run I-Type instruction ${test.binary}${test.extraName}" in {
       CPUTesterDriver(test, "single-cycle") should be(true)
     }
@@ -98,10 +97,7 @@ class SingleCycleITypeTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleLoadTesterLab2 extends CPUFlatSpec {
 
-  val tests = List[CPUTestCase](
-    InstTests.nameMap("ld1"), InstTests.nameMap("ld2"), InstTests.nameMap("ldfwd")
- )
-  for (test <- tests) {
+  for (test <- InstTests.memory.filter(_.binary.startsWith("l"))) {
     "Single Cycle CPU" should s"run load instruction test ${test.binary}${test.extraName}" in {
       CPUTesterDriver(test, "single-cycle") should be(true)
     }
@@ -122,8 +118,7 @@ class SingleCycleLoadTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleUTypeTesterLab2 extends CPUFlatSpec {
 
-  val tests = InstTests.tests("utype")
-  for (test <- tests) {
+  for (test <- InstTests.utype ++ InstTests.utypeMultiCycle) {
   "Single Cycle CPU" should s"run auipc/lui instruction test ${test.binary}${test.extraName}" in {
     CPUTesterDriver(test, "single-cycle") should be(true)
 	}
@@ -144,10 +139,7 @@ class SingleCycleUTypeTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleStoreTesterLab2 extends CPUFlatSpec {
 
-  val tests = List[CPUTestCase](
-    InstTests.nameMap("sd1"), InstTests.nameMap("sd2")
- )
-  for (test <- tests) {
+  for (test <- InstTests.memory.filter(_.binary.startsWith("s") )) {
   "Single Cycle CPU" should s"run add Store instruction test ${test.binary}${test.extraName}" in {
     CPUTesterDriver(test, "single-cycle") should be(true)
 	}
@@ -168,8 +160,7 @@ class SingleCycleStoreTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleLoadStoreTesterLab2 extends CPUFlatSpec {
 
-  val tests = InstTests.tests("memory")
-  for (test <- tests) {
+  for (test <- InstTests.memory ++ InstTests.memoryMultiCycle) {
   "Single Cycle CPU" should s"run load/store instruction test ${test.binary}${test.extraName}" in {
     CPUTesterDriver(test, "single-cycle") should be(true)
 	}
@@ -190,7 +181,7 @@ class SingleCycleLoadStoreTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleBranchTesterLab2 extends CPUFlatSpec {
   behavior of "Single Cycle CPU"
-  for (test <- InstTests.branch) {
+  for (test <- InstTests.branch ++ InstTests.branchMultiCycle) {
     it should s"run branch instruction test ${test.binary}${test.extraName}" in {
       CPUTesterDriver(test, "single-cycle") should be(true)
     }
@@ -213,7 +204,7 @@ class SingleCycleJALTesterLab2 extends CPUFlatSpec {
 
   val tests = List[CPUTestCase](
     InstTests.nameMap("jal")
-)
+  )
   for (test <- tests) {
   "Single Cycle CPU" should s"run JAL instruction test ${test.binary}${test.extraName}" in {
     CPUTesterDriver(test, "single-cycle") should be(true)
@@ -259,8 +250,7 @@ class SingleCycleJALRTesterLab2 extends CPUFlatSpec {
 */
 class SingleCycleApplicationsTesterLab2 extends CPUFlatSpec {
 
-  val tests = InstTests.tests("smallApplications")
-  for (test <- tests) {
+  for (test <- InstTests.smallApplications) {
   "Single Cycle CPU" should s"run application test ${test.binary}${test.extraName}" in {
     CPUTesterDriver(test, "single-cycle") should be(true)
 	}
