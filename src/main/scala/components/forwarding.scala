@@ -36,6 +36,10 @@ class ForwardingUnit extends Module {
     val forwardB = Output(UInt(2.W))
   })
 
+  // You can remove those initial values.
+  io.forwardA := 0.U
+  io.forwardB := 0.U
+
   // Your code goes here
 
 }
