@@ -14,7 +14,7 @@ import org.junit.runner.RunWith
 @RunWith(classOf[GradedTestRunnerJSON])
 class Lab32Grader extends JUnitSuite {
   @Test
-  @GradedTest(name="Branch instructions", max_score=20)
+  @GradedTest(name="Branch instructions", max_score=10)
   def verifyBranch() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()
@@ -39,7 +39,7 @@ class Lab32Grader extends JUnitSuite {
   }
 
   @Test
-  @GradedTest(name="Jump instructions", max_score=20)
+  @GradedTest(name="Jump instructions", max_score=10)
   def verifyJump() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()
@@ -64,7 +64,7 @@ class Lab32Grader extends JUnitSuite {
   }
 
   @Test
-  @GradedTest(name="I-type multi cycle", max_score=20)
+  @GradedTest(name="I-type multi cycle", max_score=10)
   def verifyItypeMulti() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()
@@ -89,7 +89,7 @@ class Lab32Grader extends JUnitSuite {
   }
 
   @Test
-  @GradedTest(name="R-type multi cycle", max_score=20)
+  @GradedTest(name="R-type multi cycle", max_score=10)
   def verifyRtypeMulti() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()
@@ -114,7 +114,7 @@ class Lab32Grader extends JUnitSuite {
   }
 
   @Test
-  @GradedTest(name="Memory multi cycle", max_score=20)
+  @GradedTest(name="Memory multi cycle", max_score=10)
   def verifyMemoryMulti() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()
@@ -139,7 +139,7 @@ class Lab32Grader extends JUnitSuite {
   }
 
   @Test
-  @GradedTest(name="Applications", max_score=40)
+  @GradedTest(name="Applications", max_score=20)
   def verifyApplications() {
     // Capture all of the console output from the test
     val stream = new java.io.ByteArrayOutputStream()

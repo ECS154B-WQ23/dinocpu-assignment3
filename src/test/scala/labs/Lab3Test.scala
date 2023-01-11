@@ -19,16 +19,7 @@ import dinocpu.test._
   */
 class RTypeTesterLab3 extends CPUFlatSpec {
   behavior of "Pipelined CPU"
-  for (test <- InstTests.rtype) {
-    it should s"run R-type instruction ${test.binary}${test.extraName}" in {
-      CPUTesterDriver(test, "pipelined") should be(true)
-    }
-  }
-}
-
-class RTypeMExtensionTesterLab3 extends CPUFlatSpec {
-  behavior of "Pipelined CPU"
-  for (test <- InstTests.rtypeMExtension) {
+  for (test <- InstTests.rtype ++ InstTests.rtypeMExtension) {
     it should s"run R-type instruction ${test.binary}${test.extraName}" in {
       CPUTesterDriver(test, "pipelined") should be(true)
     }
