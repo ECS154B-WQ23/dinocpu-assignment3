@@ -119,7 +119,9 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   // FETCH STAGE
   /////////////////////////////////////////////////////////////////////////////
 
-  // Only update the pc if pcstall is false
+  // Update the PC:
+  // (Part I) Choose between PC+4 and nextpc from the ControlTransferUnit to update PC
+  // (Part III) Only update PC when pcstall is false
 
   // Send the PC to the instruction memory port to get the instruction
   io.imem.address := pc
@@ -142,9 +144,25 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   // ID STAGE
   /////////////////////////////////////////////////////////////////////////////
 
+  // Send opcode to control
+
+  // Grab rs1 and rs2 from the instruction in this stage
+
+  // (Part III and/or Part IV) Send inputs from this stage to the hazard detection unit
+
+  // Send rs1 and rs2 to the register file
+
+  // Send the instruction to the immediate generator
+
+  // Sending signals from this stage to EX stage
+  //  - Fill in the ID_EX register
+  //  - Set the execution control singals
+  //  - Set the memory contorl singals
+  //  - Set the writeback contorl signals
+
+  // (Part III and/or Part IV) Set the control signals on the ID_EX pipeline register
   id_ex.io.valid := true.B
   id_ex.io.flush := false.B
-
   id_ex_ctrl.io.valid := true.B
   id_ex_ctrl.io.flush := false.B
 
@@ -153,9 +171,39 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   // EX STAGE
   /////////////////////////////////////////////////////////////////////////////
 
+  // (Skip for Part I) Set the inputs to the hazard detection unit from this stage
+
+  // (Skip for Part I) Set the inputs to the forwarding unit from this stage
+
+  // Connect the ALU Control wires
+
+  // Connect the ControlTransferUnit control wire
+
+  // (Skip for Part I) Insert the mux for Selecting data to forward from the MEM stage to the EX stage
+  //                   (Can send either alu result or immediate from MEM stage to EX stage)
+
+  // (Skip for Part I) Insert the forward operand1 mux
+
+  // (Skip for Part I) Insert the forward operand2 mux
+
+  // Operand1 mux
+
+  // Operand2 mux
+
+  // Set the ALU operation
+
+  // Connect the ALU data wires
+
+  // Connect the ControlTransfer data wires
+
+  // Sending signals from this stage to MEM stage
+  //  - Fill in the EX_MEM register
+  //  - Set the memory contorl singals
+  //  - Set the writeback control signals
+
+  // (Part III and/or Part IV) Set the control signals on the EX_MEM pipeline register
   ex_mem.io.valid      := true.B
   ex_mem.io.flush      := false.B
-
   ex_mem_ctrl.io.valid := true.B
   ex_mem_ctrl.io.flush := false.B
 
@@ -163,10 +211,21 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   // MEM STAGE
   /////////////////////////////////////////////////////////////////////////////
 
-  // Set the control signals on the mem_wb pipeline register
+  // Set data memory IO
+
+  // Send next_pc back to the Fetch stage
+
+  // (Skip for Part I) Send input signals to the hazard detection unit
+
+  // (Skip for Part I) Send input signals to the forwarding unit
+
+  // Sending signals from this stage to the WB stage
+  //  - Fill in the MEM_WB register
+  //  - Set the writeback control signals
+
+  // Set the control signals on the MEM_WB pipeline register
   mem_wb.io.valid      := true.B
   mem_wb.io.flush      := false.B
-
   mem_wb_ctrl.io.valid := true.B
   mem_wb_ctrl.io.flush := false.B
 
@@ -174,6 +233,14 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   /////////////////////////////////////////////////////////////////////////////
   // WB STAGE
   /////////////////////////////////////////////////////////////////////////////
+
+  // Set the register to be written to
+
+  // Set the writeback data mux
+
+  // Write the data to the register file
+
+  // (Skip for Part I) Set the input signals for the forwarding unit
 }
 
 /*
