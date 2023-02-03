@@ -23,14 +23,6 @@ class SingleCycleCPU(implicit val conf: CPUConfig) extends BaseCPU {
   val controlTransfer = Module(new ControlTransferUnit())
   val (cycleCount, _) = Counter(true.B, 1 << 30)
 
-  control.io := DontCare
-  registers.io := DontCare
-  aluControl.io := DontCare
-  alu.io := DontCare
-  immGen.io := DontCare
-  controlTransfer.io := DontCare
-  io.dmem <> DontCare
-
   //FETCH
   io.imem.address := pc
   io.imem.valid := true.B
@@ -41,8 +33,63 @@ class SingleCycleCPU(implicit val conf: CPUConfig) extends BaseCPU {
   } .otherwise {
     instruction := io.imem.instruction(31, 0)
   }
-  
-  // Your code goes here
+
+  val opcode = instruction(6, 0)
+  val funct7 = instruction(31, 25)
+  val funct3 = instruction(14, 12)
+  val rs1 = instruction(19, 15)
+  val rs2 = instruction(24, 20)
+  val rd = instruction(11, 7)
+
+  control.io.opcode := opcode
+
+  immGen.io.instruction := instruction
+
+  registers.io.readreg1 := rs1
+  registers.io.readreg2 := rs2
+  registers.io.writereg := rd
+  registers.io.writedata := MuxCase(0.U, Array(
+    (control.io.writeback_src === 0.U) -> alu.io.result,
+    (control.io.writeback_src === 1.U) -> immGen.io.sextImm,
+    (control.io.writeback_src === 2.U) -> io.dmem.readdata
+  ))
+  registers.io.wen := (rd =/= 0.U) & (control.io.writeback_valid === 1.U)
+
+  controlTransfer.io.controltransferop := control.io.controltransferop
+  controlTransfer.io.operand1 := registers.io.readdata1
+  controlTransfer.io.operand2 := alu.io.operand2
+  controlTransfer.io.funct3 := funct3
+  controlTransfer.io.pc := pc
+  controlTransfer.io.imm := immGen.io.sextImm
+
+  aluControl.io.aluop  := control.io.aluop
+  aluControl.io.funct7 := funct7
+  aluControl.io.funct3 := funct3
+
+  alu.io.operation := aluControl.io.operation
+  alu.io.operand1 := MuxCase(0.U, Array(
+    (control.io.op1_src === 0.U) -> registers.io.readdata1,
+    (control.io.op1_src === 1.U) -> pc
+  ))
+  alu.io.operand2 := MuxCase(0.U, Array(
+    (control.io.op2_src === 0.U) -> registers.io.readdata2,
+    (control.io.op2_src === 1.U) -> 4.U,
+    (control.io.op2_src === 2.U) -> immGen.io.sextImm
+  ))
+
+  io.dmem.address := alu.io.result
+  io.dmem.memread := control.io.memop === 1.U
+  io.dmem.memwrite := control.io.memop === 2.U
+  io.dmem.valid := control.io.memop =/= 0.U
+  io.dmem.maskmode := funct3(1, 0)
+  io.dmem.sext := ~funct3(2)
+  io.dmem.writedata := registers.io.readdata2
+
+  when (control.io.controltransferop === 0.U) {
+    pc := pc + 4.U
+  } .otherwise {
+    pc := controlTransfer.io.nextpc
+  }
 }
 
 /*

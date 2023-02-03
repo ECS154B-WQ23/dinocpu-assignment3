@@ -64,8 +64,26 @@ class Control extends Module {
       Array(              /*        aluop, controltransferop, memop, op1_src, op2_src, writeback_valid, writeback_src, validinst*/
       // R-format 64-bit operands
       BitPat("b0110011") -> List(     1.U,               0.U,   0.U,     0.U,     0.U,             1.U,           0.U,       1.U),
+      // I-format 64-bit operands
+      BitPat("b0010011") -> List(     2.U,               0.U,   0.U,     0.U,     2.U,             1.U,           0.U,       1.U),
       // R-format 32-bit operands
       BitPat("b0111011") -> List(     3.U,               0.U,   0.U,     0.U,     0.U,             1.U,           0.U,       1.U),
+      // I-format 32-bit operands
+      BitPat("b0011011") -> List(     4.U,               0.U,   0.U,     0.U,     2.U,             1.U,           0.U,       1.U),
+      // load
+      BitPat("b0000011") -> List(     5.U,               0.U,   1.U,     0.U,     2.U,             1.U,           2.U,       1.U),
+      // store
+      BitPat("b0100011") -> List(     5.U,               0.U,   2.U,     0.U,     2.U,             0.U,           0.U,       1.U),
+      // branch
+      BitPat("b1100011") -> List(     0.U,               3.U,   0.U,     0.U,     0.U,             0.U,           0.U,       1.U),
+      // lui
+      BitPat("b0110111") -> List(     0.U,               0.U,   0.U,     0.U,     0.U,             1.U,           1.U,       1.U),
+      // auipc
+      BitPat("b0010111") -> List(     5.U,               0.U,   0.U,     1.U,     2.U,             1.U,           0.U,       1.U),
+      // jal
+      BitPat("b1101111") -> List(     5.U,               1.U,   0.U,     1.U,     1.U,             1.U,           0.U,       1.U),
+      // jalr
+      BitPat("b1100111") -> List(     5.U,               2.U,   0.U,     1.U,     1.U,             1.U,           0.U,       1.U),
       ) // Array
     ) // ListLookup
 

@@ -40,5 +40,23 @@ class ControlTransferUnit extends Module {
   io.nextpc := io.pc + 4.U
   io.taken := false.B
 
-  // Your code goes here
+  when (io.controltransferop === 1.U) { // jal
+    io.nextpc := io.pc + io.imm
+    io.taken := true.B
+  }
+  .elsewhen (io.controltransferop === 2.U) { // jalr
+    io.nextpc := io.operand1 + io.imm
+    io.taken := true.B
+  }
+  .elsewhen (io.controltransferop === 3.U) { // branch instruction
+    when ((io.funct3 === "b000".U & io.operand1 === io.operand2)
+        | (io.funct3 === "b001".U & io.operand1 =/= io.operand2)
+        | (io.funct3 === "b100".U & io.operand1.asSInt < io.operand2.asSInt)
+        | (io.funct3 === "b101".U & io.operand1.asSInt >= io.operand2.asSInt)
+        | (io.funct3 === "b110".U & io.operand1 < io.operand2)
+        | (io.funct3 === "b111".U & io.operand1 >= io.operand2)) {
+      io.nextpc := io.pc + io.imm
+      io.taken := true.B
+    }
+  }
 }
