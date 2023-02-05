@@ -55,18 +55,38 @@ object Disassembler {
     val instName = instr.funct3 match {
       case 0 => instr.funct7 match {
         case 0 => "add"
+        case 1 => "mul"
         case 32 => "sub"
       }
-      case 1 => "sll"
-      case 2 => "slt"
-      case 3 => "sltu"
-      case 4 => "xor"
+      case 1 => instr.funct7 match {
+        case 0 => "sll"
+        case 1 => "mulh"
+      }
+      case 2 => instr.funct7 match {
+        case 0 => "slt"
+        case 1 => "mulhsu"
+      }
+      case 3 => instr.funct7 match {
+        case 0 => "sltu"
+        case 1 => "mulhu"
+      }
+      case 4 => instr.funct7 match {
+        case 0 => "xor"
+        case 1 => "div"
+      }
       case 5 => instr.funct7 match {
         case 0 => "srl"
+        case 1 => "divu"
         case 32 => "sra"
       }
-      case 6 => "or"
-      case 7 => "and"
+      case 6 => instr.funct7 match {
+        case 0 => "or"
+        case 1 => "rem"
+      }
+      case 7 => instr.funct7 match {
+        case 0 => "and"
+        case 1 => "remu"
+      }
       case _ => "Bad R-type"
     }
     instName + " x" + instr.rd + ", x" + instr.rs1 + ", x" + instr.rs2
@@ -79,12 +99,23 @@ object Disassembler {
     val instName = instr.funct3 match {
       case 0 => instr.funct7 match {
         case 0 => "addw"
+        case 1 => "mulw"
         case 32 => "subw"
       }
       case 1 => "sllw"
+      case 4 => instr.funct7 match {
+        case 1 => "divw"
+      }
       case 5 => instr.funct7 match {
         case 0 => "srlw"
+        case 1 => "divuw"
         case 32 => "sraw"
+      }
+      case 6 => instr.funct7 match {
+        case 1 => "remw"
+      }
+      case 7 => instr.funct7 match {
+        case 1 => "remuw"
       }
       case _ => "Bad R-type 32-bit"
     }
