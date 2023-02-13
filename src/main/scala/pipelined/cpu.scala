@@ -157,8 +157,8 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
   // Sending signals from this stage to EX stage
   //  - Fill in the ID_EX register
   //  - Set the execution control singals
-  //  - Set the memory contorl singals
-  //  - Set the writeback contorl signals
+  //  - Set the memory control singals
+  //  - Set the writeback control signals
 
   // (Part III and/or Part IV) Set the control signals on the ID_EX pipeline register
   id_ex.io.valid := true.B
@@ -198,7 +198,7 @@ class PipelinedCPU(implicit val conf: CPUConfig) extends BaseCPU {
 
   // Sending signals from this stage to MEM stage
   //  - Fill in the EX_MEM register
-  //  - Set the memory contorl singals
+  //  - Set the memory control singals
   //  - Set the writeback control signals
 
   // (Part III and/or Part IV) Set the control signals on the EX_MEM pipeline register
